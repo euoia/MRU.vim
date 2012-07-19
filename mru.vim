@@ -614,12 +614,17 @@ function! s:MRU_Open_Window(...)
 
     let bname = '__MRU_Files__'
 
-    " If the window is already open, jump to it
+    " If the window is already open:
+    " 1) If we are in the window, close it.
+    " 2) If we are not in the window, jump to it.
     let winnum = bufwinnr(bname)
     if winnum != -1
         if winnr() != winnum
             " If not already in the window, jump to it
             exe winnum . 'wincmd w'
+        else
+            silent :close
+            return
         endif
 
         setlocal modifiable
